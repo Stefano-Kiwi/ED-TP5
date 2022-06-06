@@ -1,5 +1,7 @@
 package ar.edu.uner.fcad.ed.ejercicio5;
 
+import ar.edu.uner.fcad.ed.edlineales.iteradores.Iterador;
+
 public interface ArbolAVLExtInterfaz<T> {
     /**
 * Define un iterador en preorden inverso para el árbol AVL.
