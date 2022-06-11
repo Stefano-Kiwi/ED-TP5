@@ -45,24 +45,34 @@ public class ArbolABBExt<T extends Comparable<T>> extends ArbolABB<T> implements
     @Override
     public T floor(T valor) {
 
-        NodoABB<T> nodoActual = raiz;
-        NodoABB<T> prox = raiz;
+        ListaEnlazadaNoOrdenada<T> internos = new ListaEnlazadaNoOrdenada(); //asi estaba
+        ListaEnlazadaNoOrdenada<NodoABB<T>> aux = new ListaEnlazadaNoOrdenada();
+        T valorActual = null;
 
-        while (nodoActual.tieneHijoIzquierdo() || nodoActual.tieneHijoDerecho()) {
+        aux.addToRear(raiz);
+        internos.addToRear(aux.first().getValor());
 
-            if  (valor.compareTo(nodoActual.getValor()) > 0) {
-                nodoActual = nodoActual.getHijoDerecho();
-            } else {
-                nodoActual = nodoActual.getHijoIzquierdo();
+        while (!aux.isEmpty()) {
+
+            if (aux.first().tieneHijoIzquierdo()) {
+                aux.addToRear(aux.first().getHijoIzquierdo());
+                internos.addToRear(aux.first().getHijoIzquierdo().getValor());
             }
-            
-            
-            if (nodoActual.getValor().compareTo(valor) > 0) {
-                return nodoActual.getValor();
+            if (aux.first().tieneHijoDerecho()) {
+                aux.addToRear(aux.first().getHijoDerecho());
+                internos.addToRear(aux.first().getHijoDerecho().getValor());
             }
-
+            aux.removeFirst();
         }
-        return nodoActual.getValor();
+        valorActual = min();
+        
+        while (!internos.isEmpty()) { 
+            if (valor.compareTo(internos.first()) > 1 && valorActual.compareTo(internos.first()) < 1) {
+                valorActual = internos.first();
+            }
+            internos.removeFirst();
+        }
+        return valorActual;
     }
 
     @Override
