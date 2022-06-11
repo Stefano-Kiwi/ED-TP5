@@ -1,14 +1,9 @@
 package ar.edu.uner.fcad.ed.ejercicio3;
 import ar.edu.uner.fcad.ed.arbolesabbyavl.ArbolABB;
 import ar.edu.uner.fcad.ed.arbolesabbyavl.NodoABB;
-import ar.edu.uner.fcad.ed.arbolesbinariosyheaps.NodoArbolBinario;
 import ar.edu.uner.fcad.ed.edlineales.ListaEnlazadaNoOrdenada;
 
-/**
- *
- * @author David Zarcó
- * @param <T>
- */
+
 public class ArbolABBExt<T extends Comparable<T>> extends ArbolABB<T> implements ArbolABBExtInterfaz<T> {
 
     @Override
@@ -28,9 +23,8 @@ public class ArbolABBExt<T extends Comparable<T>> extends ArbolABB<T> implements
 
     @Override
     public T max() {
-        
+
         NodoABB<T> nodoActual = raiz;
-        
 
         if (!raiz.tieneHijoDerecho()) {
             return raiz.getValor();
@@ -47,7 +41,6 @@ public class ArbolABBExt<T extends Comparable<T>> extends ArbolABB<T> implements
 
         ListaEnlazadaNoOrdenada<T> internos = new ListaEnlazadaNoOrdenada(); //asi estaba
         ListaEnlazadaNoOrdenada<NodoABB<T>> aux = new ListaEnlazadaNoOrdenada();
-        T valorActual = null;
 
         aux.addToRear(raiz);
         internos.addToRear(aux.first().getValor());
@@ -64,10 +57,11 @@ public class ArbolABBExt<T extends Comparable<T>> extends ArbolABB<T> implements
             }
             aux.removeFirst();
         }
-        valorActual = min();
-        
-        while (!internos.isEmpty()) { 
-            if (valor.compareTo(internos.first()) > 1 && valorActual.compareTo(internos.first()) < 1) {
+
+        T valorActual = min();
+
+        while (!internos.isEmpty()) {
+            if ((internos.first().compareTo(valor) < 0) && internos.first().compareTo(valorActual) > 0) {
                 valorActual = internos.first();
             }
             internos.removeFirst();
@@ -78,26 +72,69 @@ public class ArbolABBExt<T extends Comparable<T>> extends ArbolABB<T> implements
     @Override
     public T ceiling(T valor) {
 
-        NodoABB<T> nodoActual = raiz;
+        ListaEnlazadaNoOrdenada<T> internos = new ListaEnlazadaNoOrdenada(); //asi estaba
+        ListaEnlazadaNoOrdenada<NodoABB<T>> aux = new ListaEnlazadaNoOrdenada();
 
-        while (nodoActual.tieneHijoIzquierdo() || nodoActual.tieneHijoDerecho()) {
+        aux.addToRear(raiz);
+        internos.addToRear(aux.first().getValor());
 
-            if  (valor.compareTo(nodoActual.getValor()) < 0) {
-                nodoActual = nodoActual.getHijoIzquierdo();
-            } else {
-                nodoActual = nodoActual.getHijoDerecho();
+        while (!aux.isEmpty()) {
+
+            if (aux.first().tieneHijoIzquierdo()) {
+                aux.addToRear(aux.first().getHijoIzquierdo());
+                internos.addToRear(aux.first().getHijoIzquierdo().getValor());
             }
-            if (nodoActual.getValor().compareTo(valor) > 0) {
-                return nodoActual.getValor();
+            if (aux.first().tieneHijoDerecho()) {
+                aux.addToRear(aux.first().getHijoDerecho());
+                internos.addToRear(aux.first().getHijoDerecho().getValor());
             }
-
+            aux.removeFirst();
         }
-        return nodoActual.getValor();
+
+        T valorActual = max();
+
+        while (!internos.isEmpty()) {
+            if ((internos.first().compareTo(valor) > 0) && internos.first().compareTo(valorActual) < 0) {
+                valorActual = internos.first();
+            }
+            internos.removeFirst();
+        }
+        return valorActual;
     }
 
     @Override
     public boolean esPerfecto() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ListaEnlazadaNoOrdenada<NodoABB<T>> aux = new ListaEnlazadaNoOrdenada();
+
+        aux.addToRear(raiz);
+        boolean noHijos = false;
+        while (!aux.isEmpty()) {
+            if ((noHijos == true)) {
+                if (aux.first().tieneHijoIzquierdo()) {
+                    return false;
+                }
+                if (aux.first().tieneHijoDerecho()) {
+                    return false;
+                }
+            }
+
+            if (aux.first().tieneHijoIzquierdo() && aux.first().tieneHijoDerecho()) {
+                aux.addToRear(aux.first().getHijoIzquierdo());
+                aux.addToRear(aux.first().getHijoDerecho());
+            }
+            if (aux.first().tieneHijoIzquierdo() && !aux.first().tieneHijoDerecho()) {
+                return false;
+            }
+            if (aux.first().tieneHijoDerecho() && !aux.first().tieneHijoIzquierdo()) {
+                return false;
+            }
+            if (!(aux.first().tieneHijoIzquierdo() && aux.first().tieneHijoDerecho())) {
+                noHijos = true;
+            }
+            aux.removeFirst();
+        }
+
+        return true;
     }
 
 }
