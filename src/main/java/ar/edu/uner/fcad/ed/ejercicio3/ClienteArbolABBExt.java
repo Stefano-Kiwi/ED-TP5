@@ -28,9 +28,9 @@ public class ClienteArbolABBExt {
       tree.add(88);
       tree.add(26);
       
-        System.out.println("Nodo con menor valor de clave: " + tree.min());
-        System.out.println("Nodo con mayor valor de clave: " + tree.max());
-        System.out.println("Valor menor al parametro 11: " + tree.floor(4));
-        System.out.println("Valor mayor al parametro 16: " + tree.ceiling(15));  
+//        System.out.println("Nodo con menor valor de clave: " + tree.min());
+//        System.out.println("Nodo con mayor valor de clave: " + tree.max());
+        System.out.println("Valor menor al parametro 6: " + tree.floor(4));
+//        System.out.println("Valor mayor al parametro 15: " + tree.ceiling(23));  
     }
 }
