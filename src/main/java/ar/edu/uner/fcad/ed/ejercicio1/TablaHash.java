@@ -23,7 +23,7 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
         }else{
             int claveHash = clave.hashCode()%tabla.length;
         claveHash = Math.abs(claveHash);
- 
+            System.out.println("EL CODIGO HASH DE: "+clave+" ES "+claveHash);
         claveHash = pruebaLineal(claveHash,clave,0);
         
         tabla[claveHash] = valor;
