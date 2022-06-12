@@ -1,9 +1,5 @@
 package ar.edu.uner.fcad.ed.ejercicio1;
 
-/**
- *
- * @author stefa
- */
 public interface TablaHashInterfaz<K, T> {
     public void put(K clave, T valor);
     public void remove(K clave);

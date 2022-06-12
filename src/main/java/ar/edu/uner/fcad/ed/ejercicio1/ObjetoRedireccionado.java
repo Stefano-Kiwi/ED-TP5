@@ -1,9 +1,5 @@
 package ar.edu.uner.fcad.ed.ejercicio1;
 
-/**
- *
- * @author stefa
- */
 public class ObjetoRedireccionado <T>{
     private T elemento = null;
     private int cantRed = 0;

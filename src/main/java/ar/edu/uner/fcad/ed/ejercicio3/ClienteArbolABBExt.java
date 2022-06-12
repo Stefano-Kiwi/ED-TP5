@@ -1,10 +1,6 @@
 package ar.edu.uner.fcad.ed.ejercicio3;
 import ar.edu.uner.fcad.ed.arbolesabbyavl.ArbolABB;
 
-/**
- *
- * @author David Zarcó
- */
 public class ClienteArbolABBExt {
     
     public static void main(String[] args) {
