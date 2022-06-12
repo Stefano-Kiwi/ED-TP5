@@ -1,4 +1,7 @@
 package ar.edu.uner.fcad.ed.ejercicio5;
+
+import ar.edu.uner.fcad.ed.edlineales.iteradores.Iterador;
+
 public class ClienteArbolAVLExt {
     
     
@@ -12,8 +15,10 @@ public class ClienteArbolAVLExt {
         arbol.add(6);
         arbol.add(7);
         arbol.toString();
-        System.out.println(arbol.iteradorInordenInverso());
-        arbol.iteradorInordenInverso();
         
+        Iterador<Integer> iterador = arbol.iteradorPreOrdenInverso();
+          while (iterador.existeSiguiente()) {
+        System.out.println(arbol.iteradorPreOrdenInverso().toString());   
+            }
     }
 }
