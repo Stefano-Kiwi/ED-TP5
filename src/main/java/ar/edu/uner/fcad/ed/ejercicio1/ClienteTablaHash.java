@@ -33,14 +33,17 @@ public class ClienteTablaHash {
         System.out.println("Tabla: "+tabla.toString());
         System.out.println("El tamanio de la tabla es: "+tabla.size());
         
-        tabla.remove("perro");
-        tabla.remove("sombrero");
         System.out.println("Luego de eliminar la clave perro y sombrero: "+tabla.toString());
         System.out.println("Tiene que devolver cactus(1 redireccion)= "+tabla.get("cactus"));
         System.out.println("Tiene que devolver puntuacion(1 redireccion)= "+tabla.get("puntuacion"));
         System.out.println("Tiene que devolver peon(2 redirecciones)= "+tabla.get("peon"));
-        System.out.println("Tiene que devolver hello(1 redireccion)= "+tabla.get("hello"));
+        System.out.println("Tiene que devolver hello(3 redirecciones)= "+tabla.get("hello"));
         System.out.println("Tiene que devolver world(2 redirecciones)= "+tabla.get("world"));
+        
+        tabla.remove("perro");
+        tabla.remove("sombrero");
+        System.out.println("Tabla: "+tabla.toString());
+        
         tabla.makeEmpty();
         System.out.println("Vaciamos la tabla: "+tabla.toString());
     }

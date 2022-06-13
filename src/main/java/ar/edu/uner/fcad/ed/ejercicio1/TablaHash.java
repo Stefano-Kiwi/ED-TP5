@@ -7,11 +7,14 @@ import java.util.List;
 
 public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
     
+    protected Class clase;
     protected T [] tabla = null;     //  debe ir de tipo T
     protected int cantElem = 0;
     protected List<ObjetoRedireccionado> tablaRedir = new ArrayList();       // Guarda los objetos que tuvieron que pasar por una prueba y la cant de pruebas
+    protected float factorDeCarga = 0;
     
     public TablaHash(Class clase,int tam) {
+        this.clase = clase;
         tabla = (T[]) Array.newInstance(clase, tam);
     }
     
@@ -23,13 +26,14 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
         }else{
             int claveHash = clave.hashCode()%tabla.length;
         claveHash = Math.abs(claveHash);
-            System.out.println("EL CODIGO HASH DE: "+clave+" ES "+claveHash);
+         //   System.out.println("EL CODIGO HASH DE: "+clave+" ES "+claveHash);
         claveHash = pruebaLineal(claveHash,clave,0);
-        
+        //claveHash = dobleHash(claveHash,clave,0);
         tabla[claveHash] = valor;
         cantElem++;
         }
        
+        this.actualizarFactorCarga();
     }
     
     public int pruebaLineal(int clave, K claveOriginal,int iteraciones){
@@ -60,10 +64,35 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
         return claveNueva;
     }
     
-    public int dobleHash(int clave){
+    public int dobleHash(int clave, K claveOriginal, int iteraciones){
+        int claveNueva = clave;
+        if(iteraciones == 0){   // Esto si es la primera vez que entra a la tabla
+            int j = 0;
+        while((tabla[claveNueva]!=null)){
+            j++;
+            claveNueva = System.identityHashCode(claveNueva)%tabla.length;
+            
+            System.out.println("El hashcode luego de doble hash es: "+claveNueva);
+            if(j>5){
+                break;                                                                      // ACA DEBE DEJAR UNA EXCEPCION, YA QUE PASARON LOS 5 INTENTOS
+            }
+        }
+        if(j>0){ // Si por lo menos tuve que redireccionarlo 1 vez
+            
+                tablaRedir.add(new ObjetoRedireccionado(claveOriginal, j)); 
+            
+            
+        }
+        
+        return claveNueva;
         
         
-        return 0;
+        }else{  // Esto si estoy buscando el valor
+            for(int i=0;i<iteraciones;i++){
+                claveNueva = System.identityHashCode(claveNueva)%tabla.length;
+            }
+        }
+        return claveNueva;
     }
 
     @Override
@@ -86,6 +115,8 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
         
         tabla[claveHash] = null;
         cantElem = cantElem -1;
+        
+        this.actualizarFactorCarga();
     }
 
     @Override
@@ -105,6 +136,7 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
     }
     if(encontrado==true && tablaRedir.get(direEncontrado).getCantRed()>0){
         claveHash = pruebaLineal(claveHash, clave, tablaRedir.get(direEncontrado).getCantRed());
+        //claveHash = dobleHash(claveHash, clave, tablaRedir.get(direEncontrado).getCantRed());
     }
         return tabla[claveHash];
     }
@@ -121,6 +153,8 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
                tabla[i]=null;
             }
         }
+         
+         this.actualizarFactorCarga();
     }
 
     @Override
@@ -132,6 +166,27 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
     public boolean isFull() {
         return false;
     }
+    public void actualizarFactorCarga(){
+        if(tabla.length>0){
+            factorDeCarga = this.cantElem/tabla.length;
+        }else{
+            factorDeCarga = 0;
+        }
+    }
+    
+    public void duplicarTamanio(int valor){
+        //Crear nuevoArray con length = array.length + 1
+        T [] nuevoArray = (T[]) Array.newInstance(this.clase, tabla.length*2);
+        //Copiar los valores de array en otro array nuevoArray
+        for (int i = 0; i < tabla.length; i++) {
+            nuevoArray[i] = tabla[i];
+        }
+        //Poner el nuevo valor en nuevoArray 
+        //nuevoArray[nuevoArray.length - 1] = valor;        
+        //Sobreescribir el valor de array
+        this.tabla = nuevoArray;
+    }
+    
 
     @Override
     public String toString() {
@@ -148,5 +203,6 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
         sb.append('}');
         return sb.toString();
     }
+    
     
 }
