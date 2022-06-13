@@ -1,14 +1,12 @@
 
 package ar.edu.uner.fcad.ed.ejercicio5;
 
-import ar.edu.uner.fcad.ed.arbolesabbyavl.ArbolABBIteratorPreorden;
 import ar.edu.uner.fcad.ed.arbolesabbyavl.ArbolAVL;
-import ar.edu.uner.fcad.ed.arbolesabbyavl.NodoABB;
-import ar.edu.uner.fcad.ed.edlineales.ListaEnlazadaNoOrdenada;
 import ar.edu.uner.fcad.ed.edlineales.iteradores.Iterador;
 
 public class ArbolAVLExt <T extends Comparable<T>> extends ArbolAVL <T> implements ArbolAVLExtInterfaz<T>  {
 
+    @Override
     public boolean isEmpty() {
         return raiz == null;
     } 

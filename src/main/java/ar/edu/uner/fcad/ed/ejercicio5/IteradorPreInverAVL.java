@@ -1,19 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package ar.edu.uner.fcad.ed.ejercicio5;
 
 import ar.edu.uner.fcad.ed.arbolesabbyavl.NodoABB;
-import ar.edu.uner.fcad.ed.arbolesabbyavl.NodoAVL;
 import ar.edu.uner.fcad.ed.edlineales.ListaEnlazadaNoOrdenada;
 import ar.edu.uner.fcad.ed.edlineales.iteradores.Iterador;
 
-/**
- *
- * @author David Zarcó
- * @param <T>
- */
 public class IteradorPreInverAVL<T extends Comparable<T>> implements Iterador<T> {
     private final Iterador <T> iterador;
     
