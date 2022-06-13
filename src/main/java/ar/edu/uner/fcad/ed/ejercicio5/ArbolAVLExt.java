@@ -20,30 +20,11 @@ public class ArbolAVLExt <T extends Comparable<T>> extends ArbolAVL <T> implemen
 */
     @Override
     public Iterador<T> iteradorPreOrdenInverso() {
-      if(isEmpty()){
-         throw new IllegalStateException("Arbol vacío"); 
-      }else{
-          
-        ListaEnlazadaNoOrdenada<T> internos = new ListaEnlazadaNoOrdenada(); //asi estaba
-        ListaEnlazadaNoOrdenada<NodoABB<T>> aux = new ListaEnlazadaNoOrdenada();
-        aux.addToRear(raiz);
-         while (!aux.isEmpty()) {
-            if (aux.first().tieneHijoDerecho()) {
-                aux.addToRear(aux.first().getHijoDerecho());
-                internos.addToRear(aux.first().getHijoIzquierdo().getValor());
-            }
-            if (aux.first().tieneHijoDerecho()) {
-                aux.addToRear(aux.first().getHijoDerecho());
-                internos.addToRear(aux.first().getHijoDerecho().getValor());
-            }
-            aux.removeFirst();
+      if (isEmpty()) {
+            throw new IllegalStateException("Arbol vacío");
         }
-//        
-//        
-        Iterador<T> resultado = new ArbolABBIteratorPreorden(this.raiz);
-        return resultado; 
-        
-      }
+        Iterador<T> resultado = new IteradorPreInverAVL(this.raiz);
+        return resultado;
     }
     
     
@@ -54,7 +35,11 @@ public class ArbolAVLExt <T extends Comparable<T>> extends ArbolAVL <T> implemen
 */ 
     @Override
     public Iterador<T> iteradorInordenInverso() {
-      return null;
+      if (isEmpty()) {
+            throw new IllegalStateException("Arbol vacío");
+        }
+        Iterador<T> resultado = new IteradorInorderInverso(this.raiz);
+        return resultado;
     }
 /**
 * Define un iterador en posorden inverso para el árbol AVL.
@@ -63,7 +48,11 @@ public class ArbolAVLExt <T extends Comparable<T>> extends ArbolAVL <T> implemen
 */
     @Override
     public Iterador<T> iteradorPosordenInverso() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (isEmpty()) {
+            throw new IllegalStateException("Arbol vacío");
+        }
+        Iterador<T> resultado = new IteradorPosOrdenInverso(this.raiz);
+        return resultado;
     }
 
     
