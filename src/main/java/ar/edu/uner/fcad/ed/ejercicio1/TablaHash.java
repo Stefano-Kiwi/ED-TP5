@@ -41,10 +41,10 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
             claveNueva = claveNueva+1;
             claveNueva = claveNueva % tabla.length;
         }
-        if(j>0){ // Por lo menos tuve que redireccionarlo 1 vez
-            if(tablaRedir.isEmpty()){
+        if(j>0){ // Si por lo menos tuve que redireccionarlo 1 vez
+            
                 tablaRedir.add(new ObjetoRedireccionado(claveOriginal, j)); 
-            }
+            
             
         }
         
@@ -65,10 +65,27 @@ public class TablaHash<K,T> implements TablaHashInterfaz<K, T>{
         
         return 0;
     }
+
     @Override
     public void remove(K clave) {
+        int claveHash = clave.hashCode() % tabla.length;
+        claveHash = Math.abs(claveHash);
+        boolean encontrado = false;
+        int cantRedir = 0;
+        for (int i = 0; i < tablaRedir.size(); i++) {
+            if (tablaRedir.get(i).getElemento() == clave) {
+                encontrado = true;
+                cantRedir = tablaRedir.get(i).getCantRed();
+                tablaRedir.remove(i);
+                break;
+            }
+        }
+        if(encontrado == true){ // Si pasó alguna redireccion
+            claveHash = pruebaLineal(claveHash, clave, cantRedir);
+        }
         
-        
+        tabla[claveHash] = null;
+        cantElem = cantElem -1;
     }
 
     @Override
